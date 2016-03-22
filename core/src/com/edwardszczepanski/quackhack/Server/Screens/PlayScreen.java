@@ -50,6 +50,7 @@ public class PlayScreen implements Screen, NetListener {
 
 	// Sprites
 	private HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+	private Player player;
 
 	// Tiled Map Variables
 	private TmxMapLoader maploader;
@@ -101,11 +102,15 @@ public class PlayScreen implements Screen, NetListener {
 
         rayHandler = rayHandlerGenerator();
 
+
+		/*
 		for(Connection c: game.getServer().getPlayers()) {
 			System.out.println("New Player! id: "+game.getServer().getPlayerType(c.getID()).toString());
 			players.put(c.getID(), new Player(c.getID(), world, this, game.getServer().getPlayerType(c.getID())));
 		}
 		game.getServer().sendCommand(NetCommand.PLAYER_JOIN);
+		*/
+
 
         //http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=1795
         rbg = new ParallaxBackground(new ParallaxLayer[]{
@@ -134,7 +139,15 @@ public class PlayScreen implements Screen, NetListener {
         }
 
 		world.step(1 / 60f, 6, 2);
-		
+		player.update(delta);
+		if(isGoing) {
+			if(player.b2body.getLinearVelocity().x < 36){
+				player.b2body.applyForce(new Vector2(60f, 0), player.b2body.getWorldCenter(), true);
+			} else {
+				player.b2body.applyForce(new Vector2(-25f, 0), player.b2body.getWorldCenter(), true);
+			}
+		}
+		/*
 		for(Player player: players.values()) {
 			player.update(delta);
 			if(isGoing) {
@@ -145,6 +158,7 @@ public class PlayScreen implements Screen, NetListener {
                 }
 			}
 		}
+		*/
 		
         if(!boxList.isEmpty()){
             for(int i = 0; i < boxList.size(); ++i) {
@@ -154,10 +168,15 @@ public class PlayScreen implements Screen, NetListener {
         
 		float minX = 999999;
 
+        maxX = Math.max(maxX, player.b2body.getPosition().x);
+        minX = Math.min(minX, player.b2body.getPosition().x);
+
+        /*
 		for(Player player: players.values()) {
 			maxX = Math.max(maxX, player.b2body.getPosition().x);
 			minX = Math.min(minX, player.b2body.getPosition().x);
 		}
+		*/
 		
 		float newWidth = (maxX-minX)*1.5f;
 		float centerX = maxX-Math.min(gamecam.viewportWidth*0.75f, newWidth*0.25f);
@@ -180,12 +199,18 @@ public class PlayScreen implements Screen, NetListener {
 		float camEdge = gamecam.position.x - gamecam.viewportWidth*gamecam.zoom/2;
 		
 		Array<Integer> des = new Array<Integer>();
-		
+
+        if(camEdge - (player.getWidth()*2) > player.getX() || player.getY() < -player.getHeight()) {
+            des.add(player.getId());
+        }
+
+        /*
 		for(Player player: players.values()) {
 			if(camEdge - (player.getWidth()*2) > player.getX() || player.getY() < -player.getHeight()) {
                 des.add(player.getId());
 			}
 		}
+
 		for(Integer p: des) {
 			game.getServer().sendCommand(p, NetCommand.PLAYER_DIED);
 			players.remove(p);
@@ -195,6 +220,7 @@ public class PlayScreen implements Screen, NetListener {
             gameMusic.pause();
 			game.setScreen(game.getServerLobbyScreen());
 		}
+		*/
 
 		renderer.setView(gamecam);
         rayHandler.update();

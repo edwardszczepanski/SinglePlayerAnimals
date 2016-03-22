@@ -42,16 +42,8 @@ public class QuackHack extends Game {
 		System.out.println("Good morning!");
         game = this;
 		batch = new SpriteBatch();
-		if(Gdx.app.getType() == ApplicationType.Desktop) {
-			// Run server
-			server = new NetServer();
-			setScreen(new SplashScreen(game));
-
-		} else {
-			// Run client
-			client = new NetClient();
-			setScreen(new LobbyScreen(game));
-		}
+		// Other stuff has been deleted
+		setScreen(new SplashScreen(game));
 	}
 
 	@Override

@@ -62,7 +62,7 @@ public class LobbyHUD implements Disposable {
         table.row();
         table.add(countdownLabel).expandX().pad(30);
         table.row();
-        table.add(playerLabel).expandX();
+        //table.add(playerLabel).expandX();
 
         stage.addActor(table);
     }

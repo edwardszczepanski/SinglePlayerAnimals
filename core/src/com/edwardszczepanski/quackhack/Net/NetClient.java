@@ -31,7 +31,7 @@ public class NetClient {
 					System.out.println("Connecting...");
 					try {
 						//client.connect(5000, "10.111.250.117", 54555, 54777);
-						client.connect(5000, "192.168.1.59", 54555, 54777);
+						client.connect(5000, "10.0.0.89", 54555, 54777);
 					} catch (IOException e) {
 						System.out.println("Failed to Connect.");
 					}
