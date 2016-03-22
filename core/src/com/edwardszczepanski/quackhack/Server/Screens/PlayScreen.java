@@ -49,7 +49,7 @@ public class PlayScreen implements Screen, NetListener {
 	private boolean isGoing = false;
 
 	// Sprites
-	private HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+	//private HashMap<Integer, Player> players = new HashMap<Integer, Player>();
 	private Player player;
 
 	// Tiled Map Variables
@@ -98,11 +98,12 @@ public class PlayScreen implements Screen, NetListener {
 		//b2dr = new Box2DDebugRenderer();
 		new B2WorldCreator(world, map, this);
 		world.setContactListener(new WorldContactListener());
-		game.getServer().registerNetListener(this);
+		//game.getServer().registerNetListener(this);
 
         rayHandler = rayHandlerGenerator();
 
 
+        player = new Player(1, world, this, PlayerType.penguin);
 		/*
 		for(Connection c: game.getServer().getPlayers()) {
 			System.out.println("New Player! id: "+game.getServer().getPlayerType(c.getID()).toString());
@@ -132,6 +133,10 @@ public class PlayScreen implements Screen, NetListener {
 		if(Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			this.reset();
 		}
+
+        if(Gdx.input.isTouched()) {
+            player.b2body.applyLinearImpulse(new Vector2(0, 150f), player.b2body.getWorldCenter(), true);
+        }
 
 		hud.update(delta);
         if(hud.getTime() == 0 && !isGoing){
@@ -242,9 +247,13 @@ public class PlayScreen implements Screen, NetListener {
 
 		game.batch.setProjectionMatrix(gamecam.combined);
 		game.batch.begin();
+
+        player.draw(game.batch);
+        /*
 		for(Player player: players.values()) {
 			player.draw(game.batch);
 		}
+		*/
         if(!boxList.isEmpty()){
             for(int i = 0; i < boxList.size(); ++i) {
                 boxList.get(i).draw(game.batch);
@@ -302,14 +311,14 @@ public class PlayScreen implements Screen, NetListener {
 	
 	@Override
 	public void netJump(Integer id) {
-		System.out.println(id);
-		System.out.println(players.size());
-		System.out.println(players.toString());
-		
+		//System.out.println(id);
+		player.b2body.applyLinearImpulse(new Vector2(0, 150f), player.b2body.getWorldCenter(), true);
+		/*
 		Player p = players.get(id);
 		if(p != null) {
 	        p.b2body.applyLinearImpulse(new Vector2(0, 150f), p.b2body.getWorldCenter(), true);
 		}
+		*/
 	}
 	
 	@Override
@@ -322,7 +331,7 @@ public class PlayScreen implements Screen, NetListener {
 	public void netPlayerConnected(Integer id, PlayerType type) {
 		System.out.println(type.toString());
 		if(!isGoing) {
-			players.put(id, new Player(id, world, this, type));
+			//players.put(id, new Player(id, world, this, type));
 		}
 		game.getServer().sendCommand(id, NetCommand.PLAYER_JOIN);
 	}

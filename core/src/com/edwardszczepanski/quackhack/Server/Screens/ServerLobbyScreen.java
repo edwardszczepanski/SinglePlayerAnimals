@@ -24,7 +24,7 @@ public class ServerLobbyScreen implements Screen {
 
     public void handleInput(float delta){
         if(Gdx.input.justTouched()){
-
+            game.setScreen(new PlayScreen(game));
         }
     }
 

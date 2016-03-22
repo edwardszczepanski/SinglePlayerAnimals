@@ -54,7 +54,7 @@ public class LobbyHUD implements Disposable {
         parameter.size = 80*4;
         nameLabel = new Label("Please wait...", new Label.LabelStyle(generator.generateFont(parameter), Color.WHITE));
         parameter.size = 30*4;
-        playerLabel = new Label(String.format("%d ", game.getServer().getPlayers().length) + "  PLAYERS WAITING", new Label.LabelStyle(generator.generateFont(parameter), Color.WHITE));
+        //playerLabel = new Label(String.format("%d ", game.getServer().getPlayers().length) + "  PLAYERS WAITING", new Label.LabelStyle(generator.generateFont(parameter), Color.WHITE));
 
         table.add(nameLabel).expandX().padTop(450);
         table.row();
@@ -75,7 +75,7 @@ public class LobbyHUD implements Disposable {
             countdownLabel.setText(String.format("%d", worldTimer));
             timeCount = 0;
         }
-        playerLabel.setText(String.format("%d ", game.getServer().getPlayers().length) + "  PLAYERS WAITING");
+        //playerLabel.setText(String.format("%d ", game.getServer().getPlayers().length) + "  PLAYERS WAITING");
     }
     public int getTime(){
         return worldTimer;

@@ -56,7 +56,7 @@ public class Hud implements Disposable {
         parameter.size = 80*4;
         nameLabel = new Label("GAME  FULL  OF  ANIMALS", new Label.LabelStyle(generator.generateFont(parameter), Color.WHITE));
         parameter.size = 30*4;
-        playerLabel = new Label(String.format("%d ", game.getServer().getPlayers().length) + "  PLAYERS WAITING", new Label.LabelStyle(generator.generateFont(parameter), Color.WHITE));
+        //playerLabel = new Label(String.format("%d ", game.getServer().getPlayers().length) + "  PLAYERS WAITING", new Label.LabelStyle(generator.generateFont(parameter), Color.WHITE));
 
         table.add(nameLabel).expandX().padTop(450);
         table.row();
@@ -64,7 +64,7 @@ public class Hud implements Disposable {
         table.row();
         table.add(countdownLabel).expandX().pad(30);
         table.row();
-        table.add(playerLabel).expandX();
+        //table.add(playerLabel).expandX();
 
         stage.addActor(table);
     }
@@ -87,7 +87,7 @@ public class Hud implements Disposable {
             }
             timeCount = 0;
         }
-        playerLabel.setText(String.format("%d ", game.getServer().getPlayers().length) + "  PLAYERS WAITING");
+        //playerLabel.setText(String.format("%d ", game.getServer().getPlayers().length) + "  PLAYERS WAITING");
     }
     public int getTime(){
         return worldTimer;
